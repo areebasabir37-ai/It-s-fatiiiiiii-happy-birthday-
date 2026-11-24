@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Fatima! 💖🎆</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Quicksand', sans-serif;
+        }
+        body {
+            background-color: #fce4ec;
+            background-image: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        #fireworks-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+        .phone-container {
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            max-height: 800px;
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 30px 20px;
+            overflow-y: auto;
+            z-index: 10;
+        }
+        .header-icons {
+            display: flex;
+            gap: 10px;
+            font-size: 24px;
+            margin-top: 10px;
+        }
+        .card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 30px 20px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(216, 27, 96, 0.08);
+            margin: auto 0;
+            position: relative;
+            z-index: 10;
+        }
+        h2 {
+            color: #c2185b;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #7b1fa2;
+            font-size: 14px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        .btn {
+            background-color: #e91e63;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4);
+            transition: 0.2s;
+        }
+        .btn:active {
+            transform: scale(0.95);
+        }
+        .hidden {
+            display: none !important;
+        }
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            background: #f3e5f5;
+            border-radius: 10px;
+            height: 8px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            background: #e91e63;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        /* Flip Cards */
+        .flip-card {
+            background: #fff;
+            border: 2px solid #f8bbd0;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            text-align: left;
+            transition: 0.3s;
+        }
+        .flip-card.flipped {
+            background: #fce4ec;
+            border-color: #e91e63;
+        }
+        .letter-box {
+            text-align: left;
+            max-height: 350px;
+            overflow-y: auto;
+            padding: 10px;
+            font-size: 13px;
+            color: #4a148c;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="fireworks-canvas"></canvas>
+
+<div class="phone-container">
+    <div class="header-icons">🥺 💖</div>
+
+    <!-- PAGE 1: Intro -->
+    <div id="page-1" class="card">
+        <p style="font-size: 11px; letter-spacing: 2px; color: #ad1457;">- BIRTHDAY INTRO -</p>
+        <h2 style="font-size: 40px; margin: 15px 0;">🎂</h2>
+        <h2>A LITTLE NOTE FOR FATIMA</h2>
+        <p>Ready to open it?</p>
+        <button class="btn" onclick="nextPage(2)">Yes!</button>
+    </div>
+
+    <!-- PAGE 2: Set the Mood -->
+    <div id="page-2" class="card hidden">
+        <p style="font-size: 11px; letter-spacing: 2px; color: #ad1457;">- CELEBRATION MODE -</p>
+        <h2>Happy Birthday Fatima!</h2>
+        <p>A tiny celebration page for you, made with lots of love.</p>
+        <button class="btn" onclick="nextPage(3); launchFireworksBurst(4);">Set the mood</button>
+    </div>
+
+    <!-- PAGE 3: Release Balloons & Fireworks -->
+    <div id="page-3" class="card hidden">
+        <p style="font-size: 11px; letter-spacing: 2px; color: #ad1457;">- CELEBRATION MODE -</p>
+        <h2>Happy Birthday Fatima!</h2>
+        <p>Let's light up the sky for you! 🎆</p>
+        <button class="btn" onclick="nextPage(4); launchFireworksBurst(6);">Release the fireworks</button>
+    </div>
+
+    <!-- PAGE 4: Cut the Cake Intro -->
+    <div id="page-4" class="card hidden">
+        <p style="font-size: 11px; letter-spacing: 2px; color: #ad1457;">- CELEBRATION MODE -</p>
+        <h2>Happy Birthday Fatima!</h2>
+        <p>Time for the best part!</p>
+        <button class="btn" onclick="nextPage(5)">Cut the cake</button>
+    </div>
+
+    <!-- PAGE 5: Cake Cutting Interaction -->
+    <div id="page-5" class="card hidden">
+        <h2 style="color: #e91e63;">Cake Time</h2>
+        <p>Cut the cake and make a wish</p>
+        <div style="font-size: 60px; margin: 15px 0;" id="cake-emoji">🎂</div>
+        <p id="cut-status">Swipe/Tap across the cake to cut it</p>
+        <button class="btn" onclick="cutCake()" id="cut-btn">Cut Cake</button>
+        <div class="progress-container">
+            <div class="progress-bar" id="cake-progress"></div>
+        </div>
+    </div>
+
+    <!-- PAGE 6: Make a Wish -->
+    <div id="page-6" class="card hidden">
+        <h2 style="color: #e91e63;">Cake Time</h2>
+        <p>Close your eyes and make a wish ✨</p>
+        <div style="font-size: 50px; margin: 20px 0;">🎉🥳</div>
+        <button class="btn" onclick="nextPage(7); launchFireworksBurst(5);">I Made My Wish</button>
+    </div>
+
+    <!-- PAGE 7: Flip Birthday Wishes Cards -->
+    <div id="page-7" class="card hidden" style="text-align: left;">
+        <h2 style="text-align: center;">Flip these birthday wishes</h2>
+        <p style="text-align: center; font-size: 12px;">Tap each card to read your message, Fatima.</p>
+        
+        <div class="flip-card" onclick="flipCard(this, 1)">
+            <b>01. Purest Soul ❤️</b> <span style="float: right; font-size: 12px; color: #e91e63;">Tap me</span>
+            <p class="hidden" style="margin-top: 10px; font-size: 12px;">Happy Birthday Fatima! May this year bring you endless happiness, peace, and everything your heart wishes for.</p>
+        </div>
+
+        <div class="flip-card" onclick="flipCard(this, 2)">
+            <b>02. Endless Smiles ✨</b> <span style="float: right; font-size: 12px; color: #e91e63;">Tap me</span>
+            <p class="hidden" style="margin-top: 10px; font-size: 12px;">Wishing you a day full of laughter, warmth, and bright moments. Keep shining just the way you do, Fatima!</p>
+        </div>
+
+        <button class="btn hidden" id="cards-next-btn" style="width: 100%; margin-top: 10px;" onclick="nextPage(8); startContinuousFireworks();">Continue to Letter</button>
+    </div>
+
+    <!-- PAGE 8: Final Letter -->
+    <div id="page-8" class="card hidden">
+        <p style="font-size: 11px; letter-spacing: 2px; color: #ad1457;">- FATIMA-LETTER.TXT -</p>
+        <div class="letter-box">
+            <h3 style="color: #c2185b; margin-bottom: 10px;">Dearest Fatima,</h3>
+            <p>Happy Birthday to someone who makes life feel softer, brighter, and a little more fun.</p>
+            <p>I hope this year gives you more peace, more confidence, and all the gorgeous memories you so deeply deserve.</p>
+            <p>May every step ahead take you closer to your dreams and fill your days with real joy. Have the best birthday ever!</p>
+            <p style="margin-top: 15px; text-align: right; font-weight: bold; color: #e91e63;">With lots of love, Areeba 💖</p>
+        </div>
+        <button class="btn" style="margin-top: 20px; background-color: #7b1fa2;" onclick="restartSite()">Restart ↺</button>
+    </div>
+
+</div>
+
+<script>
+    // Fireworks Engine
+    const canvas = document.getElementById('fireworks-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let fireworksInterval = null;
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    const colors = ['#ff1744', '#f50057', '#d500f9', '#ff9100', '#ffd600', '#00e5ff', '#ff4081'];
+
+    function createFirework(x, y) {
+        const particleCount = 45;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        for (let i = 0; i < particleCount; i++) {
+            const angle = (Math.PI * 2 * i) / particleCount;
+            const speed = Math.random() * 4 + 2;
+            particles.push({
+                x: x,
+                y: y,
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed,
+                alpha: 1,
+                color: color,
+                size: Math.random() * 3 + 1.5
+            });
+        }
+    }
+
+    function launchFireworksBurst(count) {
+        for (let i = 0; i < count; i++) {
+            setTimeout(() => {
+                const x = Math.random() * (canvas.width * 0.8) + (canvas.width * 0.1);
+                const y = Math.random() * (canvas.height * 0.5) + (canvas.height * 0.1);
+                createFirework(x, y);
+            }, i * 350);
+        }
+    }
+
+    function startContinuousFireworks() {
+        launchFireworksBurst(5);
+        if (fireworksInterval) clearInterval(fireworksInterval);
+        fireworksInterval = setInterval(() => {
+            const x = Math.random() * (canvas.width * 0.8) + (canvas.width * 0.1);
+            const y = Math.random() * (canvas.height * 0.5) + (canvas.height * 0.1);
+            createFirework(x, y);
+        }, 900);
+    }
+
+    function stopContinuousFireworks() {
+        if (fireworksInterval) {
+            clearInterval(fireworksInterval);
+            fireworksInterval = null;
+        }
+    }
+
+    function animateFireworks() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = particles.length - 1; i >= 0; i--) {
+            const p = particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.05; // light gravity
+            p.alpha -= 0.015;
+
+            if (p.alpha <= 0) {
+                particles.splice(i, 1);
+            } else {
+                ctx.save();
+                ctx.globalAlpha = p.alpha;
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+        requestAnimationFrame(animateFireworks);
+    }
+    animateFireworks();
+
+    // Page Navigation & Interactions
+    function nextPage(pageNum) {
+        document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
+        document.getElementById('page-' + pageNum).classList.remove('hidden');
+    }
+
+    let progress = 0;
+    function cutCake() {
+        progress += 34;
+        if (progress > 100) progress = 100;
+        document.getElementById('cake-progress').style.width = progress + '%';
+        
+        if (progress >= 100) {
+            document.getElementById('cake-emoji').innerHTML = '🍰';
+            document.getElementById('cut-status').innerHTML = 'Cake Cut Successfully! 🎉';
+            document.getElementById('cut-btn').innerHTML = 'Next ➔';
+            document.getElementById('cut-btn').setAttribute('onclick', 'nextPage(6)');
+            launchFireworksBurst(7);
+        }
+    }
+
+    let flippedCount = 0;
+    function flipCard(cardElement, cardId) {
+        if (!cardElement.classList.contains('flipped')) {
+            cardElement.classList.add('flipped');
+            cardElement.querySelector('p').classList.remove('hidden');
+            cardElement.querySelector('span').style.display = 'none';
+            flippedCount++;
+            launchFireworksBurst(2);
+            
+            if (flippedCount === 2) {
+                document.getElementById('cards-next-btn').classList.remove('hidden');
+            }
+        }
+    }
+
+    function restartSite() {
+        stopContinuousFireworks();
+        progress = 0;
+        flippedCount = 0;
+        document.getElementById('cake-progress').style.width = '0%';
+        document.getElementById('cake-emoji').innerHTML = '🎂';
+        document.getElementById('cut-status').innerHTML = 'Swipe/Tap across the cake to cut it';
+        document.getElementById('cut-btn').innerHTML = 'Cut Cake';
+        document.getElementById('cut-btn').setAttribute('onclick', 'cutCake()');
+        document.querySelectorAll('.flip-card').forEach(c => {
+            c.classList.remove('flipped');
+            c.querySelector('p').classList.add('hidden');
+            c.querySelector('span').style.display = 'inline';
+        });
+        document.getElementById('cards-next-btn').classList.add('hidden');
+        nextPage(1);
+    }
+</script>
+
+</body>
+</html>
